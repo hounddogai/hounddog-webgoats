@@ -1,0 +1,20 @@
+<div *ngIf="currencyType">
+    <mat-toolbar>Edit Currency</mat-toolbar>
+    <div class="row">
+        <div class="col-6">
+            <mat-form-field>
+                <input matInput placeholder="Name" type="text" [disabled]="currencyType.name ==='PLN'" [(ngModel)]="currencyType.name">
+            </mat-form-field>
+        </div>
+
+        <div class="col-6">
+            <mat-form-field>
+                <input matInput placeholder="Rate" type="number" [disabled]="currencyType.name ==='PLN'" [(ngModel)]="currencyType.exchangeRate">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions align="center">
+    <button mat-button [mat-dialog-close]="currencyType" cdkFocusInitial>Save</button>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+</div>

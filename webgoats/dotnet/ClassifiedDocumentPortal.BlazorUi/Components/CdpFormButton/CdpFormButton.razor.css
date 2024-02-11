@@ -1,0 +1,23 @@
+﻿::deep .form-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+    padding: 0 12px;
+    min-width: 34px;
+}
+
+::deep .form-button {
+    background-color: transparent;
+    color: var(--mud-palette-dark);
+    text-transform: none;
+}
+
+::deep .form-icon {
+    margin-right: 5px;
+}
+
+::deep .form-button:hover {
+    font-weight: bold;
+}

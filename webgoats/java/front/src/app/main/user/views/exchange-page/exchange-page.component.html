@@ -1,0 +1,99 @@
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Currency exchange<div
+            matTooltip="Allows you to exchange Currency for the selected one for free. For multi-currency accounts only" class="ml-2">
+            (?)
+        </div>
+    </mat-toolbar>
+
+    <div *ngIf="bankAccounts">
+        <div *ngIf="bankAccounts.length > 0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                        <mat-form-field style="width:100%">
+                            <mat-label class="mt-2">Bank account</mat-label>
+                            <mat-select [(ngModel)]="exchangeCurrency.sourceBankAccNumber"
+                                (selectionChange)="changeCurrencyList()">
+                                <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount.number">
+                                    {{bankAccount.number}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field style="width: 100%">
+                            <input matInput type="text" placeholder="Sum" [(ngModel)]="exchangeCurrency.balance">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-5">
+                        <mat-form-field style="width:100%">
+                            <mat-label class="mt-2">Source currency</mat-label>
+                            <mat-select [(ngModel)]="exchangeCurrency.sourceCurrency">
+                                <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                                    {{ currency }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                        <div class="d-flex justify-content-center mt-2">
+                            <fa-icon [icon]="faArrowRight" style="font-size: 18px"></fa-icon>
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <mat-form-field style="width:100%">
+                            <mat-label class="mt-2">Destination currency</mat-label>
+                            <mat-select [(ngModel)]="exchangeCurrency.destCurrency">
+                                <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                                    {{ currency }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center mb-2">
+                    <div *ngIf="convertedValue">
+                        Exchange {{ beforeConvertValue | currency: sourceConvertCurrType}} ->
+                        {{ convertedValue | currency: destConvertCurrType}}
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mb-2">
+                    <button mat-raised-button class="bg-primary text-white mr-2" data-toggle="collapse"
+                        href="#collapseExample" role="button" aria-expanded="false"
+                        aria-controls="collapseExample">Currency table</button>
+                    <button mat-raised-button color="primary" (click)="calculate()">Recalculate</button>
+                    <button mat-raised-button class="bg-success text-white ml-2" (click)="convert()">Convert</button>
+                </div>
+                <div class="collapse" id="collapseExample">
+                        <table mat-table [dataSource]="currencyTypes" class=" mb-2">
+
+                                <ng-container matColumnDef="name">
+                                  <th mat-header-cell *matHeaderCellDef> Name </th>
+                                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="exchangeRate">
+                                  <th mat-header-cell *matHeaderCellDef> Rate </th>
+                                  <td mat-cell *matCellDef="let element"> {{element.exchangeRate}} </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="currencyColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: currencyColumns;"></tr>
+                              </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="bankAccounts.length === 0">
+            No multi-currency accounts
+        </div>
+    </div>
+
+    <div *ngIf="!bankAccounts">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>

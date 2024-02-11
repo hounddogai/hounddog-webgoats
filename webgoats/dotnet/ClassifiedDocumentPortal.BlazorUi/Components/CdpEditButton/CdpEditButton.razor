@@ -1,0 +1,64 @@
+﻿@using ClassifiedDocumentPortal.Domain.Entities
+@using Microsoft.AspNetCore.Identity
+<div>
+    <label class="cdp-edit-button-label">Username</label>
+    <div class="cdp-edit-button-wrapper-disabled">
+        <input type="text" disabled="@CalculateDisabled()" @bind-value="@Value" />
+        @if (!_isEdit)
+        {
+            <CdpButton Text="Edit" Type="CdpButtonType.Type3" OnClick="(() => ToggleEdit(true))" />
+        }
+        else
+        {
+            <CdpButton Text="Save" Type="CdpButtonType.Type3" OnClick="Save" />
+        }
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Value { get; set; }
+
+    [Inject]
+    private UserManager<PortalUser> _userManager { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider _authenticationStateProvider { get; set; }
+
+    [Inject]
+    private ISnackbar _snackbarService { get; set; }
+
+    private bool _isEdit { get; set; } = false;
+    private PortalUser _currentUser;
+
+    private void ToggleEdit(bool isEdit)
+    {
+        _isEdit = isEdit;
+    }
+
+    private bool CalculateDisabled()
+    {
+        return !_isEdit;
+    }
+
+    private async void Save()
+    {
+        var user = (await _authenticationStateProvider.GetAuthenticationStateAsync()).User;
+        _currentUser = await _userManager.GetUserAsync(user);
+
+        _currentUser.UserName = Value;
+        var result = await _userManager.UpdateAsync(_currentUser);
+
+        if (result.Succeeded)
+        {
+            _snackbarService.Add("Username updated.", Severity.Success);
+            ToggleEdit(false);
+            StateHasChanged();
+        }
+        else
+        {
+            _snackbarService.Add("Error updating username.", Severity.Error);
+        }
+    }
+}

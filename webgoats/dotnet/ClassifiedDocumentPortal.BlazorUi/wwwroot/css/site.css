@@ -1,0 +1,16 @@
+html, .mud-main-content {
+    background-color: #efeded;
+}
+
+.mud-main-content {
+    padding-top: 150px !important;
+}
+
+.body-container {
+    padding: 24px;
+    min-width: 700px;
+    min-height: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

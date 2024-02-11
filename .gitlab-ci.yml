@@ -1,0 +1,9 @@
+hounddog:
+  image: hounddogai/scanner:staging
+  script:
+    - pip3 install -r requirements.txt
+    - python scripts/clear_gitlab_scan_results.py
+    - hounddog scan --output-format=gitlab --output-filename=results.json
+  artifacts:
+    reports:
+      sast: results.json

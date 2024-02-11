@@ -1,0 +1,59 @@
+﻿@using ClassifiedDocumentPortal.Domain.Entities
+@using Microsoft.AspNetCore.Identity
+<div>
+    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+        <ButtonTemplate>
+            <MudButton HtmlTag="label" for="@context.Id">
+                <MudAvatar>
+                    @if (string.IsNullOrEmpty(ProfilePicture))
+                    {
+                        <MudImage Src="images/profile.png" />
+                    }
+                    else
+                    {
+                        <MudImage Src="@ProfilePicture" />
+                    }
+                </MudAvatar>
+            </MudButton>
+        </ButtonTemplate>
+    </MudFileUpload>
+</div>
+
+@code {
+    [Parameter]
+    public string ProfilePicture { get; set; }
+
+    [Inject]
+    private UserManager<PortalUser> _userManager { get; set; }
+
+    [Inject]
+    private NavigationManager _navigationManager { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider _authenticationStateProvider { get; set; }
+
+    private PortalUser _currentUser;
+
+    private async Task UploadFiles(IBrowserFile file)
+    {
+        if (file is not null)
+        {
+            var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            await using var fs = new FileStream(path, FileMode.Create);
+            await file.OpenReadStream(file.Size).CopyToAsync(fs);
+            var bytes = new byte[file.Size];
+            fs.Position = 0;
+            await fs.ReadAsync(bytes);
+            fs.Close();
+            File.Delete(path);
+            var src = Convert.ToBase64String(bytes);
+            ProfilePicture = string.Format("data:image/jpeg;base64,{0}", src);
+            var user = (await _authenticationStateProvider.GetAuthenticationStateAsync()).User;
+            _currentUser = await _userManager.GetUserAsync(user);
+            _currentUser.ProfilePicture = ProfilePicture;
+            await _userManager.UpdateAsync(_currentUser);
+            StateHasChanged();
+            _navigationManager.NavigateTo("/settings", true);
+        }
+    }
+}

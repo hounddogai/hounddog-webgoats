@@ -1,0 +1,58 @@
+﻿/*::deep .table-container {
+}*/
+
+::deep .mud-table {
+    padding: 3rem !important;
+    border-radius: 25px !important;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+}
+
+::deep .mud-pagination {
+    margin-top: 30px;
+}
+
+::deep li.mud-pagination-item.mud-pagination-item-rectangular.mud-pagination-item-selected > button {
+    color: white;
+    font-weight: bold;
+    background-color: var(--mud-palette-dark);
+    border-radius: 8px;
+}
+
+::deep li.mud-pagination-item.mud-pagination-item-rectangular > button {
+    font-weight: bold;
+    background-color: var(--mud-palette-grey-lighter);
+    color: var(--mud-palette-dark);
+    border-radius: 8px;
+}
+
+::deep li.mud-pagination-item.mud-pagination-item-rectangular > p {
+    font-weight: bold;
+    background-color: var(--mud-palette-grey-lighter);
+    color: var(--mud-palette-dark);
+    border-radius: 8px;
+}
+
+::deep .mud-table-head > .mud-table-row > .mud-table-cell {
+    font-weight: bold !important;
+}
+
+.table-container {
+    width: 80%;
+}
+
+::deep .search-field {
+    max-width: 250px;
+}
+
+::deep .search-field .mud-input-outlined-border {
+    border-radius: 25px;
+    border: none;
+}
+
+::deep .search-field .mud-input-control-input-container {
+    background-color: #f3f3f3;
+    border-radius: 25px;
+}
+

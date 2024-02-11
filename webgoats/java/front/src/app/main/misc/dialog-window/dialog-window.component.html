@@ -1,0 +1,58 @@
+<div mat-dialog-content>
+    <div *ngIf="bankAccounts && template">
+        <mat-toolbar>
+            <h1 mat-dialog-title>{{ title }}</h1>
+        </mat-toolbar>
+        <mat-form-field class="col-md-6">
+            <input matInput placeholder="Name" [(ngModel)]="template.templateName" required>
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+            <mat-label class="mt-2">Bank account</mat-label>
+            <mat-select [(ngModel)]="template.sourceAccountNumber" (selectionChange)="changeCurrencyList()">
+                <mat-option *ngFor="let bankAccount of bankAccountsForCombobox" [value]="bankAccount.number">
+                    {{bankAccount.number}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <label id="example-radio-group-label">Transfer type:</label>
+        <mat-radio-group  [color]="'primary'" aria-labelledby="example-radio-group-label" class="example-radio-group" [color]="primary"
+            [(ngModel)]="template.multiCurrency" (change)="changeSourceDestCurrencyType($event)">
+            <mat-radio-button class="example-radio-button" [value]="false">
+                Standard
+            </mat-radio-button>
+            <mat-radio-button class="example-radio-button" [value]="true">
+                Multi_currency
+            </mat-radio-button>
+        </mat-radio-group>
+
+        <mat-form-field class="col-12" *ngIf="template.multiCurrency">
+            <mat-label class="mt-2">Source balance</mat-label>
+            <mat-select [(ngModel)]="template.sourceCurrency">
+                <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                    {{ currency }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+            <input matInput placeholder="Recipient's account" [(ngModel)]="template.destinedAccountNumber" required>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-6">
+            <input matInput placeholder="Sum" [(ngModel)]="template.balance" required>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-6">
+            <input matInput placeholder="Title" [(ngModel)]="template.title" required>
+        </mat-form-field>
+    </div>
+    <div *ngIf="!bankAccounts || !template">
+        <mat-spinner class="mx-auto my-auto"></mat-spinner>
+    </div>
+</div>
+<div mat-dialog-actions align="center">
+    <button mat-button [mat-dialog-close]="template" cdkFocusInitial>Ok</button>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+</div>

@@ -1,0 +1,25 @@
+<mat-toolbar>User details</mat-toolbar>
+<table class="table table-hover">
+    <tr>
+        <td class="divider">Username </td>
+        <td>{{ user.identifier }}</td>
+    </tr>
+    <tr>
+        <td class="divider">Email </td>
+        <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+        <td class="divider">First and last name </td>
+        <td>{{ user.address.name }} {{ user.address.surname }}</td>
+    </tr>
+    <tr>
+        <td class="divider">Address </td>
+        <td>{{ user.address.city }} {{ user.address.street }} {{ user.address.houseNumber }} {{ user.address.postCode }}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="divider">Date of birth </td>
+        <td>{{ user.address.dateOfBirth | amDateFormat: 'YYYY-MM-DD' }}</td>
+    </tr>
+</table>

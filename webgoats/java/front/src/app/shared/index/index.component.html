@@ -1,0 +1,16 @@
+<div class="background">
+    <div class="text-dark text-center rgba-stylish-strong py-5 px-4">
+        <div style="padding-top: 15%">
+
+            <h5 class="h5 orange-text">Welcome</h5>
+            <h2 class="card-title h2 my-4 py-2">Online banking system</h2>
+            <p class="mb-4 pb-2 px-md-5 mx-md-5">Please register or login</p>
+            <button mat-raised-button *ngIf="authService.isTokenExpired()" class="green-button mr-2" routerLink="login">Login</button>
+            <button mat-raised-button *ngIf="authService.isTokenExpired()" class="blue-button mr-2" routerLink="register">Register</button>
+            <button mat-raised-button *ngIf="!authService.isTokenExpired()" class="green-button mr-2" routerLink="core">Start</button>
+            <button mat-raised-button *ngIf="Pwa.promptEvent" color="primary" (click)="installPwa()">
+                Install app
+            </button>
+        </div>
+    </div>
+</div>

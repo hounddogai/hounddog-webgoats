@@ -1,0 +1,12 @@
+Name: Jane Doe
+Email: janedoe@example.com
+
+Document name: Foreign Relations Report
+Classification: Confidential
+Category: 1.4(d)
+Id: 39842-233
+
+Document name: Nuclear Materials Report
+Classification: Confidential
+Category: 1.4(f)
+Id: 39842-235

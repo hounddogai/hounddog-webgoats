@@ -1,0 +1,15 @@
+﻿::deep .mud-appbar {
+    min-height: 150px;
+    background-color: white !important;
+    box-shadow: none !important;
+    justify-content: center;
+    color: black !important;
+}
+
+::deep .mud-appbar .mud-toolbar > h4 {
+    font-weight: bold;
+}
+
+::deep .mud-appbar .mud-toolbar > p {
+    margin-left: 10px;
+}

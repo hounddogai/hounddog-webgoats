@@ -1,0 +1,35 @@
+﻿::deep .cdp-security-clearance-settings {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+::deep .cdp-security-clearance-settings-title {
+    font-weight: bold;
+}
+
+::deep .cdp-security-clearance-settings-info {
+    margin-top: 20px;
+}
+
+::deep .cdp-security-clearance-settings-info > div {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+
+::deep .cdp-security-clearance-settings-info > div > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 5px;
+}
+
+::deep .cdp-security-clearance-settings-info .mud-typography-body1 {
+    color: var(--mud-palette-black);
+    font-weight: bold;
+    font-size: .75rem;
+    text-align: start;
+    line-height: 1.66;
+    letter-spacing: .03333em;
+}

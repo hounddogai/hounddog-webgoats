@@ -1,0 +1,45 @@
+﻿::deep .cdp-button-type-1 {
+    background-color: transparent;
+    color: var(--mud-palette-dark);
+    text-transform: none;
+    width: 100%;
+}
+
+::deep .cdp-button-type-1-active {
+    background-color: var(--mud-palette-dark);
+    color: var(--mud-palette-white);
+    text-transform: none;
+    width: 100%;
+    border-radius: 12px;
+}
+
+::deep .cdp-button-type-2 {
+    background-color: transparent;
+    color: var(--mud-palette-dark);
+    text-transform: none;
+    width: 100%;
+    justify-content: start;
+}
+
+::deep .cdp-button-type-2-active {
+    border-radius: 5px;
+    text-transform: none;
+    font-weight: bold;
+    width: 100%;
+    justify-content: start;
+}
+
+::deep .cdp-button-type-3 {
+    background-color: var(--mud-palette-dark);
+    color: var(--mud-palette-white);
+    text-transform: none;
+    border-radius: 5px;
+}
+
+::deep .cdp-button-type-1:hover,
+::deep .cdp-button-type-2:hover,
+::deep .cdp-button-type-3:hover,
+::deep .cdp-button-type-1-active:hover,
+::deep .cdp-button-type-2-active:hover {
+    font-weight: bold;
+}

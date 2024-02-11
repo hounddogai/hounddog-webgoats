@@ -1,0 +1,64 @@
+﻿@using ClassifiedDocumentPortal.Domain.Entities
+@using Microsoft.AspNetCore.Identity
+
+<div class="cdp-account-security-settings">
+    <MudText Class="cdp-account-security-settings-title" Typo="Typo.h6">Account Security</MudText>
+
+    <div class="cdp-account-security-settings-info">
+
+        @if (!_isEdit)
+        {
+            <CdpButton Text="Change Password" IsActive="false" Type="CdpButtonType.Type3" OnClick="(() => ToggleEdit(true))" />
+        }
+        else
+        {
+            <div class="cdp-account-security-settings-inputs">
+                <MudTextField @bind-Value="_oldPassword" InputType="InputType.Password"  Placeholder="Old password" Variant="Variant.Outlined" />
+                <MudTextField @bind-Value="_newPassword" InputType="InputType.Password"  Placeholder="New password" Variant="Variant.Outlined" />
+
+                <div class="cdp-account-security-settings-input-buttons">
+                    <CdpButton Text="Cancel" IsActive="false" Type="CdpButtonType.Type3" OnClick="(() => ToggleEdit(false))" />
+                    <CdpButton Text="Save" IsActive="false" Type="CdpButtonType.Type3" OnClick="Save" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Inject]
+    private UserManager<PortalUser> _userManager { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider _authenticationStateProvider { get; set; }
+
+    [Inject]
+    private ISnackbar _snackbarService { get; set; }
+
+    private string _oldPassword;
+    private string _newPassword;
+    private PortalUser _currentUser;
+    private bool _isEdit { get; set; } = false;
+
+    private void ToggleEdit(bool isEdit)
+    {
+        _isEdit = isEdit;
+    }
+
+    private async Task Save()
+    {
+        var user = (await _authenticationStateProvider.GetAuthenticationStateAsync()).User;
+        _currentUser = await _userManager.GetUserAsync(user);
+        var result = await _userManager.ChangePasswordAsync(_currentUser, _oldPassword, _newPassword);
+
+        if (result.Succeeded)
+        {
+            _snackbarService.Add("Password updated.", Severity.Success);
+            ToggleEdit(false);
+        }
+        else
+        {
+            _snackbarService.Add("Error updating password.", Severity.Error);
+        }
+    }
+}

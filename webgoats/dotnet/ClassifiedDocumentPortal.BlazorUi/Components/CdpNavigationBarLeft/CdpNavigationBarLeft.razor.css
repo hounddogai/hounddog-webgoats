@@ -1,0 +1,47 @@
+﻿::deep .mud-drawer-header {
+    justify-content: center;
+}
+
+::deep .mud-drawer-header > img {
+    width: 150px;
+    height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+}
+
+::deep .mud-navmenu {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+::deep .mud-navmenu > hr {
+    opacity: unset;
+    border-color: none;
+    color: var(--mud-palette-dark);
+    height: 2px;
+    border-radius: 5px;
+}
+
+::deep .mud-navmenu > :last-child {
+    margin-top: auto;
+    margin-bottom: 8px;
+}
+
+::deep .mud-drawer-header {
+    min-height: 170px;
+}
+
+::deep .drawer-button-container {
+    position: absolute;
+    left: 210px;
+    top: auto;
+    bottom: 55px;
+}
+
+::deep .drawer-button-container > .mud-button-root {
+    position: fixed;
+}

@@ -1,0 +1,29 @@
+{
+  "profiles": {
+    "ClassifiedDocumentPortal.BlazorUi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "Identity/Account/Login",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7056;http://localhost:5130"
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  },
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:43077",
+      "sslPort": 44315
+    }
+  }
+}

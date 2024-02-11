@@ -1,0 +1,50 @@
+<div class="box mat-elevation-z8">
+
+  <mat-toolbar>New deposit
+    <fa-icon class="ml-2" matTooltip="After creating deposits, the funds will be deducted from the selected bank account."
+             [icon]="faQuestionCircle"></fa-icon>
+  </mat-toolbar>
+
+  <div class="container">
+    <form [formGroup]="investmentForm" (ngSubmit)="sendInvestmentForm()">
+      <div class="row">
+        <div class="col-12">
+          <mat-form-field style="width:100%">
+            <mat-label>Bank account</mat-label>
+            <mat-select [(ngModel)]="selectedBankAccount" [ngModelOptions]="{standalone: true}">
+              <mat-option *ngFor="let bankAccount of bankAccounts" [value]="bankAccount">
+                {{bankAccount.number}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          Currency<span
+          matTooltip="The bank account to which the cash will be transferred after the loan is approved"
+          aria-label="Tooltip">
+                        (?)</span>
+          <mat-form-field style="width:100%">
+            <mat-label class="mt-2">Balance</mat-label>
+            <mat-select formControlName="destinedSaldoId">
+              <mat-option *ngFor="let saldo of selectedBankAccount?.saldos" [value]="saldo.id">
+                {{ saldo.currencyType.name}} {{ saldo.balance }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field style="width: 100%">
+            <input matInput placeholder="Sum" formControlName="startBalance" required>
+          </mat-form-field>
+
+          Interest deposits: <b>5% of the amount per day</b>
+        </div>
+      </div>
+      <mat-divider class="my-2"></mat-divider>
+
+      <mat-toolbar>
+        <button mat-raised-button class="mx-auto" [disabled]="investmentForm.invalid" type="submit" color="primary">
+          Create
+        </button>
+      </mat-toolbar>
+    </form>
+  </div>
+</div>

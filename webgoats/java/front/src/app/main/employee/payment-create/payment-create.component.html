@@ -1,0 +1,158 @@
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Deposits</mat-toolbar>
+    <hr />
+    <div class="col-12">
+      Add a new payment
+
+      <div *ngIf="bankAccounts">
+            <form class="example-form" [formGroup]="paymentForm" (ngSubmit)="sendPaymentForm()">
+                <mat-form-field class="example-full-width">
+                    <input type="text" placeholder="Bank account" aria-label="Number" matInput
+                        formControlName="destinedBankAccountNumber" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let account of filteredBankAccounts | async" [value]="account.number">
+                            {{account.number}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Currency</mat-label>
+                    <mat-select formControlName="sourceCurrencyType">
+                        <mat-option *ngFor="let currency of currencyList" [value]="currency">
+                            {{currency}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Sum" type="number" formControlName="balance">
+                </mat-form-field>
+
+                <button class="btn btn-success" [disabled]="paymentForm.invalid">Save</button>
+
+            </form>
+        </div>
+    </div>
+    <hr />
+    <mat-toolbar>Deposits</mat-toolbar>
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div [hidden]="payments?.data.length === 0">
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilterPayments($event.target.value)" placeholder="Search">
+                        </mat-form-field>
+                    </div>
+                    <table mat-table [dataSource]="payments">
+
+                        <ng-container matColumnDef="balance">
+                            <th mat-header-cell *matHeaderCellDef>Sum</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.balance | currency: element.sourceCurrencyType.name}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef>Multi-currency</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.date | amDateFormat: 'YYYY-MM-DD HH:mm'}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="destinedSaldo">
+                            <th mat-header-cell *matHeaderCellDef>Balances</th>
+                            <td mat-cell *matCellDef="let element" matTooltip="{{element.destinedBankAccount.number}}">
+                                {{element.destinedBankAccount.number | slice:0:2}}...{{element.destinedBankAccount.number | slice:22:26}}
+                            </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="[ 'balance', 'date', 'destinedSaldo']; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['balance', 'date', 'destinedSaldo'];">
+                        </tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+                <div *ngIf="bankAccounts && bankAccounts.length === 0">
+                    <div class="container">
+                        <div class="row">
+                            <div class="mx-auto py-3">
+                              No bank accounts
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <mat-toolbar>
+        Bank accounts
+    </mat-toolbar>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div [hidden]="bankAccounts?.length === 0">
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                        </mat-form-field>
+                    </div>
+                    <table mat-table [dataSource]="bankAccountList">
+
+                        <ng-container matColumnDef="numer">
+                            <th mat-header-cell *matHeaderCellDef>Numer</th>
+                            <td mat-cell *matCellDef="let element">
+                                <div matTooltip="{{element.number}} (naciśnij aby skopiować)"
+                                    (click)="copyToClipboard(element.number)">
+                                    {{element.number | slice:0:2}}...{{element.number | slice:22:26}}
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="multiCurrency">
+                            <th mat-header-cell *matHeaderCellDef>Multi-currency</th>
+                            <td mat-cell *matCellDef="let element"> <span
+                                    *ngIf="element.bankAccType.bankAccountType === 'MULTI_CURRENCY'">Multi-currency</span>
+                                <span *ngIf="element.bankAccType.bankAccountType === 'STANDARD'">Standard</span>
+                                <span *ngIf="element.bankAccType.bankAccountType === 'STUDENT'">Student</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="saldos">
+                            <th mat-header-cell *matHeaderCellDef>Balances</th>
+                            <td mat-cell *matCellDef="let element"> <span
+                                    *ngFor="let saldo of element.saldos; let i = index">{{saldo.balance | currency: saldo.currencyType.name}}<span
+                                        *ngIf="i < element.saldos.length - 1">, </span> </span> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="details">
+                            <th mat-header-cell *matHeaderCellDef>Details</th>
+                            <td mat-cell *matCellDef="let element"> <button mat-raised-button color="primary"
+                                    (click)="openBankAccountDetails(element.id)">Details</button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row
+                            *matHeaderRowDef="[ 'numer', 'multiCurrency', 'saldos', 'details']; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [ 'numer', 'multiCurrency', 'saldos', 'details'];">
+                        </tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+                <div *ngIf="bankAccounts && bankAccounts.length === 0">
+                    <div class="container">
+                        <div class="row">
+                            <div class="mx-auto py-3">
+                                Brak rachunków bankowych
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

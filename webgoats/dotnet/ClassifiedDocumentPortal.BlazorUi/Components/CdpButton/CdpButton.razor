@@ -1,0 +1,64 @@
+﻿<div>
+    <MudFab
+        Class="@CdpButtonClass()"
+        Size="Size.Small"
+        IconSize="Size.Small"
+        DisableElevation="true"
+        DisableRipple="true"
+        StartIcon="@Icon"
+        Label="@Text"
+        Href="@Href"
+        OnClick="(() => CdpButtonClick())"/>
+</div>
+
+@code {
+    [Parameter]
+    public string Icon { get; set; }
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [Parameter]
+    public string Href { get; set; }
+
+    [Parameter]
+    public bool IsActive { get; set; }
+
+    [Parameter]
+    public CdpButtonType Type { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    private string CdpButtonClass()
+    {
+        string cdpButtonClass = "cdp-button";
+
+        if (Type == CdpButtonType.Type1)
+        {
+            cdpButtonClass = cdpButtonClass + "-type-1";
+        }
+
+        if (Type == CdpButtonType.Type2)
+        {
+            cdpButtonClass = cdpButtonClass + "-type-2";
+        }
+
+        if (Type == CdpButtonType.Type3)
+        {
+            cdpButtonClass = cdpButtonClass + "-type-3";
+        }
+
+        if (IsActive)
+        {
+            cdpButtonClass = cdpButtonClass + "-active";
+        }
+
+        return cdpButtonClass;
+    }
+
+    private async Task CdpButtonClick()
+    {
+        await OnClick.InvokeAsync();
+    }
+}

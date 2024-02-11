@@ -1,0 +1,32 @@
+﻿.registration-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.registration-form-container {
+    width: 50%;
+}
+
+.registration-link {
+    text-decoration: none;
+    color: var(--mud-palette-dark);
+}
+
+.registration-link:hover {
+    color: var(--mud-palette-black);
+}
+
+.form-control:focus {
+    border-color: var(--mud-palette-dark);
+    box-shadow: none;
+}
+
+.background-check-status-completed {
+    margin-right: 10px;
+}

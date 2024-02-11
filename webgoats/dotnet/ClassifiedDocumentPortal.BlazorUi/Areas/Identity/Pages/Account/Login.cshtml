@@ -1,0 +1,38 @@
+﻿@page
+@model LoginModel
+
+<head>
+    <title>Log in</title>
+    <link href="~/css/identity-login.css" rel="stylesheet" asp-append-version="true" />
+</head>
+
+<div class="login-container">
+    <img class="logo" src="/images/logo.png" />
+    <div class="login-form-container">
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-2">
+                <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Username" class="form-label"></label>
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-2">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                <label asp-for="Input.Password" class="form-label"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="mb-2">
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-dark">Log in</button>
+            </div>
+            <div>
+                <p>
+                    <a class="login-link" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

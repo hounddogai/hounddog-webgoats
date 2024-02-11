@@ -1,0 +1,27 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+body, html{
+  height:100% !important;
+}
+
+.blue-snackbar{
+    color: white;
+    background-color: #0062CC;
+}
+
+.red-snackbar{
+    color: white;
+    background-color: #ff002f;
+}
+
+.green-snackbar{
+    color: white;
+    background-color: #27D20D;
+}
+
+.mat-simple-snackbar span {
+    margin: auto;
+    text-align: center;
+  }

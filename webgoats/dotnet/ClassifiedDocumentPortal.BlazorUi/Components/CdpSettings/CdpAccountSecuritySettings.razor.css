@@ -1,0 +1,49 @@
+﻿::deep .cdp-account-security-settings {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+::deep .cdp-account-security-settings-title {
+    font-weight: bold;
+}
+
+::deep .cdp-account-security-settings-info {
+    margin-top: 20px;
+}
+
+::deep .cdp-account-security-settings-inputs .mud-input-control {
+    margin-top: 14px;
+    flex-direction: column-reverse;
+}
+
+::deep .cdp-account-security-settings-inputs .mud-input-control-helper-container {
+    padding-left: 0px !important;
+}
+
+::deep .cdp-account-security-settings-inputs .mud-input-outlined-border {
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: #D8D9DB !important;
+}
+
+::deep .cdp-account-security-settings-inputs .mud-input-helper-text {
+    color: var(--mud-palette-black);
+    font-weight: bold;
+}
+
+::deep .cdp-account-security-settings-inputs .mud-input-slot {
+    padding: 12px;
+    color: #5d6b81;
+}
+
+::deep .cdp-account-security-settings-input-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-top: 5px;
+}
+
+::deep .cdp-account-security-settings-input-buttons .mud-button-root {
+    margin-left: 5px;
+}
