@@ -4,7 +4,7 @@ import requests
 
 GITLAB_TOKEN = os.environ["GITLAB_TOKEN"]
 GITLAB_API_URL = "https://gitlab.com/api/v4"
-GITLAB_PROJECT_ID = 54824810
+GITLAB_PROJECT_ID = 54825183
 REQUEST_HEADERS = {"Private-Token": GITLAB_TOKEN}
 
 
