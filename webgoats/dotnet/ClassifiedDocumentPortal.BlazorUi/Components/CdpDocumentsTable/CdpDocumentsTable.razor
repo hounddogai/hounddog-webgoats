@@ -1,0 +1,90 @@
+﻿@using ClassifiedDocumentPortal.Application.CQRS.Queries.GetDocumentsBySecurityClearance
+@using ClassifiedDocumentPortal.Application.Extensions
+@using ClassifiedDocumentPortal.Domain.Entities
+@using ClassifiedDocumentPortal.Domain.Enums
+@using MediatR
+@using Microsoft.AspNetCore.Identity
+
+<div class="table-container">
+    <MudTable
+        Breakpoint="Breakpoint.None" @ref="@_table" Items="@_documents" RowsPerPage="5" Hover="true" Filter="new Func<Document,bool>(FilterFunc1)">
+        <ToolBarContent>
+            <MudSpacer />
+
+            <MudTextField
+                Class="search-field"
+                @bind-Value="_searchString"
+                Placeholder="Search"
+                Adornment="Adornment.Start"
+                AdornmentIcon="@Icons.Material.Filled.Search"
+                IconSize="Size.Medium"
+                Variant="Variant.Outlined" />
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Classification</MudTh>
+            <MudTh>Category</MudTh>
+            <MudTh>Date Published</MudTh>
+            <MudTh>Document Id</MudTh>
+        </HeaderContent>
+
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Classification">@EnumExtensions.GetDescription(context.Classification)</MudTd>
+            <MudTd DataLabel="Category">@EnumExtensions.GetDescription(context.Category)</MudTd>
+            <MudTd DataLabel="DatePublished">@context.DatePublished</MudTd>
+            <MudTd DataLabel="DocumentId">@context.DocumentId</MudTd>
+        </RowTemplate>
+
+        <PagerContent>
+            <MudPagination
+                ShowNextButton="false"
+                ShowPreviousButton="false"
+                Rectangular="true"
+                SelectedChanged="PageChanged"
+                Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" />
+        </PagerContent>
+    </MudTable>
+</div>
+
+@code {
+    [Inject]
+    private IMediator _mediator { get; set; }
+
+    [Inject]
+    private UserManager<PortalUser> _userManager { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider _authenticationStateProvider { get; set; }
+
+    private MudTable<Document> _table;
+    private string _searchString = string.Empty;
+    private List<Document> _documents = new List<Document>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await _authenticationStateProvider.GetAuthenticationStateAsync()).User;
+        var currentUser = await _userManager.GetUserAsync(user);
+        var query = new GetDocumentsBySecurityClearanceQuery(currentUser.SecurityClearance);
+        _documents = (await _mediator.Send(query)).Documents;
+        StateHasChanged();
+    }
+
+    private void PageChanged(int i)
+    {
+        _table.NavigateTo(i - 1);
+    }
+
+    private bool FilterFunc(Document document, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (document.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    }
+
+    private bool FilterFunc1(Document document) => FilterFunc(document, _searchString);
+}

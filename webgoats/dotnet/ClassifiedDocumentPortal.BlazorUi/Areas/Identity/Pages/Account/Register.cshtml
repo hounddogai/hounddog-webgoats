@@ -1,0 +1,94 @@
+﻿@page
+@using ClassifiedDocumentPortal.Domain.Enums
+@model RegisterModel
+
+<head>
+    <title>Register</title>
+    <link href="~/css/identity-registration.css" rel="stylesheet" asp-append-version="true" />
+</head>
+
+<div class="registration-container">
+    <img class="logo" src="/images/logo.png" />
+    <div class="registration-form-container">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating mb-2">
+                <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Username"></label>
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-2">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-2">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <input asp-for="Input.Name" class="form-control" autocomplete="name" aria-required="true" />
+                <label asp-for="Input.Name"></label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <input asp-for="Input.Address" class="form-control" autocomplete="address" aria-required="true" />
+                <label asp-for="Input.Address"></label>
+                <span asp-validation-for="Input.Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <select asp-for="Input.SecurityClearance" class="form-control" asp-items="Html.GetEnumSelectList<ClassificationType>()">
+                    <option selected="selected" value="">Please select</option>
+                </select>
+                <label asp-for="Input.SecurityClearance"></label>
+                <span asp-validation-for="Input.SecurityClearance" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <input asp-for="Input.DepartmentOfDefenseContractorNumber" class="form-control" autocomplete="department-of-defense-contractor-number" aria-required="true" />
+                <label asp-for="Input.DepartmentOfDefenseContractorNumber"></label>
+                <span asp-validation-for="Input.DepartmentOfDefenseContractorNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <input asp-for="Input.USFederalContractorRegistrationNumber" class="form-control" autocomplete="us-federal-contractor-registration-number" aria-required="true" />
+                <label asp-for="Input.USFederalContractorRegistrationNumber"></label>
+                <span asp-validation-for="Input.USFederalContractorRegistrationNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-2">
+                <div class="d-flex flex-column">
+                    <div class="d-flex flex-row align-items-center">
+                        <input class="background-check-status-completed" type="checkbox" asp-for="Input.BackgroundCheckStatusCompleted" />
+                        <label asp-for="Input.BackgroundCheckStatusCompleted"></label>
+                    </div>
+                    <span asp-validation-for="Input.BackgroundCheckStatusCompleted" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-dark">Register</button>
+            </div>
+            <div>
+                <p>
+                    <a class="registration-link" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Login</a>
+                </p>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

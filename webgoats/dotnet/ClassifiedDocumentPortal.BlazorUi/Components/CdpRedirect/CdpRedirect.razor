@@ -1,0 +1,16 @@
+﻿<div>
+
+</div>
+
+@code {
+    [Parameter]
+    public string RedirectUrl { get; set; }
+
+    [Inject]
+    private NavigationManager _navigationManager { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _navigationManager.NavigateTo(RedirectUrl, true);
+    }
+}

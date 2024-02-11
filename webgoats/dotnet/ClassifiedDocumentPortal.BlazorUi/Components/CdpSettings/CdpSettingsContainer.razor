@@ -1,0 +1,90 @@
+﻿@using ClassifiedDocumentPortal.Domain.Entities
+@using Microsoft.AspNetCore.Identity
+
+<div>
+    <div class="tabs-container">
+        <div class="tabs-container-left">
+            <CdpButton 
+                Text="General"
+                IsActive="IsActive(1)"
+                Type="CdpButtonType.Type2"
+                OnClick="(() => SetActiveTab(1))" />
+
+            <CdpButton 
+                Text="Security Clearance"
+                IsActive="IsActive(2)"
+                Type="CdpButtonType.Type2"
+                OnClick="(() => SetActiveTab(2))" />
+
+            <CdpButton 
+                Text="Account Security"
+                IsActive="IsActive(3)"
+                Type="CdpButtonType.Type2"
+                OnClick="(() => SetActiveTab(3))" />
+        </div>
+
+        @if (_currentUser is not null)
+        {
+            <div class="tabs-container-right">
+                @switch (_activeTab)
+                {
+                    case 1:
+                        <CdpGeneralSettings 
+                            Username="@_currentUser.UserName" 
+                            EmailAddress="@_currentUser.Email" 
+                            Name="@_currentUser.Name" 
+                            Address="@_currentUser.Address"
+                            ProfilePicture="@_currentUser.ProfilePicture" />
+
+                        break;
+
+                    case 2:
+                        <CdpSecurityClearanceSettings
+                            BackgroundCheckStatus="@_currentUser.BackgroundCheckStatusCompleted"
+                            SecurityClearance="@_currentUser.SecurityClearance"
+                            DepartmentOfDefenseContractorNumber="@_currentUser.DepartmentOfDefenseContractorNumber"
+                            USFederalContractorRegistrationNumber="@_currentUser.USFederalContractorRegistrationNumber"
+                            />
+                        break;
+
+                    case 3:
+                        <CdpAccountSecuritySettings />
+                        break;
+
+                    default:
+                        <CdpGeneralSettings />
+                        break;
+                }
+            </div>
+        }
+
+    </div>
+</div>
+
+@code {
+    [Inject]
+    private UserManager<PortalUser> _userManager { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider _authenticationStateProvider { get; set; }
+
+    private int _activeTab = 1;
+    private PortalUser _currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await _authenticationStateProvider.GetAuthenticationStateAsync()).User;
+        _currentUser = await _userManager.GetUserAsync(user);
+        StateHasChanged();
+    }
+
+    private void SetActiveTab(int activeTab)
+    {
+        _activeTab = activeTab;
+    }
+
+    private bool IsActive(int buttonTab)
+    {
+        return _activeTab == buttonTab;
+    }
+}

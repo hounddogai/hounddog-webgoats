@@ -1,0 +1,32 @@
+<div class="main-div">
+    <mat-card *ngIf="!isRequestSend">
+        <mat-toolbar>Login</mat-toolbar>
+        <form [formGroup]="form" (ngSubmit)="login()">
+            <mat-form-field class="mt-2">
+                <input matInput placeholder="Username" type="text" formControlName="username">
+                <mat-error
+                    *ngIf="form.get('username').hasError('maxlength') && !form.get('username').hasError('required')">
+                    Username is too long
+                </mat-error>
+                <mat-error *ngIf="form.get('username').hasError('required')">
+                  Username is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput placeholder="Password" type="password" formControlName="password">
+                <mat-error
+                    *ngIf="form.get('password').hasError('maxlength') && !form.get('password').hasError('required')">
+                    Password is too long
+                </mat-error>
+                <mat-error *ngIf="form.get('password').hasError('required')">
+                    Password <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <button [disabled]="form.invalid" mat-raised-button color="primary">Login</button>
+        </form>
+    </mat-card>
+  <mat-card *ngIf="isRequestSend">
+    <mat-spinner class="mx-auto"></mat-spinner>
+    <h4 class="mt-3"><i>Your request is being processed</i></h4>
+  </mat-card>
+</div>

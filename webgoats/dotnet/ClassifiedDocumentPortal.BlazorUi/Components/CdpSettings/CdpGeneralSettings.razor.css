@@ -1,0 +1,53 @@
+﻿::deep .cdp-general-settings {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+::deep .cdp-general-settings-title {
+    font-weight: bold;
+}
+
+::deep .cdp-general-settings-info {
+    margin-top: 20px;
+}
+
+::deep .cdp-general-settings-inputs .mud-input-control {
+    margin-top: 14px;
+    flex-direction: column-reverse;
+}
+
+::deep .cdp-general-settings-inputs .mud-input-control-helper-container {
+    padding-left: 0px !important;
+}
+
+::deep .cdp-general-settings-inputs .mud-input-outlined-border {
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: #D8D9DB !important;
+}
+
+::deep .cdp-general-settings-inputs .mud-input-helper-text {
+    color: var(--mud-palette-black);
+    font-weight: bold;
+}
+
+::deep .cdp-general-settings-inputs .mud-input-slot {
+    padding: 12px;
+    color: #5d6b81;
+}
+
+::deep .cdp-general-settings-profile-picture {
+    display: flex;
+    flex-direction: column;
+    margin-top: 14px;
+}
+
+::deep .cdp-general-settings-profile-picture .mud-typography-body1 {
+    color: var(--mud-palette-black);
+    font-weight: bold;
+    font-size: .75rem;
+    text-align: start;
+    line-height: 1.66;
+    letter-spacing: .03333em;
+}

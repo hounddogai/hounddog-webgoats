@@ -1,0 +1,57 @@
+﻿@using ClassifiedDocumentPortal.Application.Extensions
+@using ClassifiedDocumentPortal.Domain.Enums
+<div class="cdp-security-clearance-settings">
+    <MudText Class="cdp-security-clearance-settings-title" Typo="Typo.h6">Security Clearance</MudText>
+
+    <div class="cdp-security-clearance-settings-info">
+        <div>
+            <MudText>Background Check Status</MudText>
+            <div>
+                @if (BackgroundCheckStatus)
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" />
+                    <MudText Class="ml-1" Color="Color.Success">Completed</MudText>
+                }
+                else
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                    <MudText Class="ml-1" Color="Color.Error">Not Completed</MudText>
+                }
+            </div>
+        </div>
+
+        <div>
+            <MudText>Security Clearance</MudText>
+            <div>
+                <MudIcon Icon="@Icons.Material.Filled.Security" Color="Color.Error" />
+                <MudText Class="ml-1" Color="Color.Error">
+                    @EnumExtensions.GetDescription(SecurityClearance)
+                </MudText>
+            </div>
+        </div>
+
+        <div>
+            <MudText>Department of Defence Contractor Number</MudText>
+            <MudText Class="text-muted">@DepartmentOfDefenseContractorNumber</MudText>
+        </div>
+
+        <div>
+            <MudText>US Federal Contractor Registration Number</MudText>
+            <MudText Class="text-muted">@USFederalContractorRegistrationNumber</MudText>
+        </div>
+    </div>
+ </div>
+
+@code {
+    [Parameter]
+    public bool BackgroundCheckStatus { get; set; }
+
+    [Parameter]
+    public ClassificationType SecurityClearance { get; set; }
+
+    [Parameter]
+    public string DepartmentOfDefenseContractorNumber { get; set; }
+
+    [Parameter]
+    public string USFederalContractorRegistrationNumber { get; set; }
+ }

@@ -1,0 +1,110 @@
+<div class="box mat-elevation-z8">
+    <mat-toolbar>Credit applications</mat-toolbar>
+    <div [hidden]="isLoading || (credits && credits.data.length === 0)">
+        <table mat-table [dataSource]="credits">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Id </th>
+                <td mat-cell *matCellDef="let element"> {{element.id}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalBalance">
+                <th mat-header-cell *matHeaderCellDef>Credit account </th>
+                <td mat-cell *matCellDef="let element"> {{element.totalBalance}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="destinedAccount">
+                <th mat-header-cell *matHeaderCellDef> Destination account </th>
+                <td mat-cell *matCellDef="let element">
+                    <div matTooltip="{{element.destinedSaldoId}} (naciśnij aby skopiować)"
+                        (click)="copyToClipboard(element.destinedSaldoId)">
+                        {{element.destinedSaldoId | slice:0:2}}...{{element.destinedSaldoId | slice:22:26}}
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="totalInstallmentCount">
+                <th mat-header-cell *matHeaderCellDef> Ilość rat </th>
+                <td mat-cell *matCellDef="let element"> {{element.totalInstallmentCount}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="currency">
+                <th mat-header-cell *matHeaderCellDef> Currency </th>
+                <td mat-cell *matCellDef="let element"> {{element.currency}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="accept">
+                <th mat-header-cell *matHeaderCellDef> Accept </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button class="bg-success text-white"
+                        (click)="acceptCredit(element.id)">Accept</button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="reject">
+                <th mat-header-cell *matHeaderCellDef> Reject </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button class="bg-danger text-white"
+                        (click)="rejectCredit(element.id)">Reject</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="creditsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: creditsColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+    <div class="col-12" *ngIf="credits && credits.data.length === 0">
+      No credits to process
+    </div>
+    <mat-toolbar>Credit search</mat-toolbar>
+    <form class="example-form" [formGroup]="searchForm" (ngSubmit)="searchCredit()">
+        <div class="col-12 mt-1">
+            <mat-form-field>
+                <input matInput placeholder="ID credit" type="number" formControlName="id">
+            </mat-form-field>
+            <button mat-raised-button class="bg-success text-white mb-2 ml-2">Search</button>
+        </div>
+    </form>
+
+    <div *ngIf="credit">
+
+        <table class="table table-hover">
+            <tr>
+                <td class="divider">ID: </td>
+                <td>{{ credit.id }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Paid: </td>
+                <td>{{ credit.balancePaid }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Credit amount: </td>
+                <td>{{ credit.totalBalance }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Currency: </td>
+                <td>{{ credit.currency }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Status: </td>
+                <td>
+                    <p *ngIf="credit.creditStatus.creditType === 'ACTIVE'">Active</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'AWAITING'">Awaiting</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'CANCELED'">Deleted</p>
+                    <p *ngIf="credit.creditStatus.creditType === 'PAID'">Paid</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="divider">Change status</td>
+                <td>
+                    <button mat-raised-button class="bg-success text-white" (click)="changeStatus()">Change
+                        status</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

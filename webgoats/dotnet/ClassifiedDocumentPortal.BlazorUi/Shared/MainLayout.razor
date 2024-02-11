@@ -1,0 +1,24 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>Classified Document Portal</PageTitle>
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<AuthorizeView>
+    <Authorized>
+        <MudLayout>
+            <CdpNavigationBarTop />
+            <CdpNavigationBarLeft Open="true" />
+            <MudMainContent>
+                <div class="body-container">
+                    @Body
+                </div>
+            </MudMainContent>
+        </MudLayout>
+    </Authorized>
+    <NotAuthorized>
+        <CdpRedirect RedirectUrl="Identity/Account/Login" />
+    </NotAuthorized>
+</AuthorizeView>

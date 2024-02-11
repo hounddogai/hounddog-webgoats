@@ -1,0 +1,18 @@
+type Query {
+  me: User
+}
+
+type User {
+  id: ID
+  name: String
+  gender: Boolean
+  firstName: String
+  userName: String 
+  taken: [Book]
+}
+
+type Book {
+  title: String
+  author: User
+}
+

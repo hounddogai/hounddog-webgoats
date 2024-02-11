@@ -1,0 +1,92 @@
+﻿<div>
+    <MudDrawer Elevation="0" Variant="@DrawerVariant.Persistent" @bind-Open="Open">
+        <MudDrawerHeader>
+            <MudImage Src="images/logo.png" Fluid="true" />
+        </MudDrawerHeader>
+
+        <AuthorizeView>
+            <Authorized>
+                <MudNavMenu>
+                    <CdpButton Icon="@Icons.Material.Filled.ListAlt"
+                               Text="Documents"
+                               Href="/documents"
+                               IsActive="IsActive(1)"
+                               Type="CdpButtonType.Type1"
+                               OnClick="(() => SetActiveButton(1))" />
+
+                    <hr />
+
+                    <CdpButton Icon="@Icons.Material.Filled.Settings"
+                               Text="Settings"
+                               Href="/settings"
+                               IsActive="IsActive(2)"
+                               Type="CdpButtonType.Type1"
+                               OnClick="(() => SetActiveButton(2))" />
+
+                    <CdpFormButton Action="Identity/Account/LogOut" Text="Log out" Icon="@Icons.Material.Filled.Logout" />
+                </MudNavMenu>
+            </Authorized>
+        </AuthorizeView>
+
+        <div class="drawer-button-container">
+            <MudIconButton Color="Color.Dark"
+                           Size="Size.Large"
+                           DisableRipple="true"
+                           DisableElevation="true"
+                           Icon="@CalculateIconButtonIcon()"
+                           OnClick="ToggleDrawer" />
+        </div>
+    </MudDrawer>
+</div>
+
+@code {
+    [Parameter]
+    public bool Open { get; set; }
+
+    [Inject]
+    private NavigationManager _navigationManager { get; set; }
+
+    private int _activeButton = 2;
+
+    protected override void OnParametersSet()
+    {
+        string uri = _navigationManager.Uri.ToString();
+
+        if (uri.EndsWith("/documents"))
+        {
+            _activeButton = 1;
+        }
+
+        if (uri.EndsWith("/settings"))
+        {
+            _activeButton = 2;
+        }
+    }
+
+    private void ToggleDrawer()
+    {
+        Open = !Open;
+    }
+
+    private string CalculateIconButtonIcon()
+    {
+        if (Open)
+        {
+            return Icons.Material.Filled.ArrowCircleLeft;
+        }
+        else
+        {
+            return Icons.Material.Filled.ArrowCircleRight;
+        }
+    }
+
+    private void SetActiveButton(int activeButton)
+    {
+        _activeButton = activeButton;
+    }
+
+    private bool IsActive(int activeButton)
+    {
+        return _activeButton == activeButton;
+    }
+}

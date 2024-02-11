@@ -1,0 +1,35 @@
+﻿<div class="cdp-general-settings">
+    <MudText Class="cdp-general-settings-title" Typo="Typo.h6">General</MudText>
+
+    <div class="cdp-general-settings-info">
+        <div class="cdp-general-settings-inputs">
+            <CdpEditButton Value="@Username" />
+            <MudTextField Value="@EmailAddress" HelperText="Email Address" Variant="Variant.Outlined" />
+            <MudTextField Value="@Name" HelperText="Name" Variant="Variant.Outlined" />
+            <MudTextField Value="@Address" HelperText="Address" Variant="Variant.Outlined" />
+        </div>
+
+        <div class="cdp-general-settings-profile-picture">
+            <MudText>Profile Picture</MudText>
+            <CdpPhotoUpload ProfilePicture="@ProfilePicture" />
+        </div>
+
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Username { get; set; }
+
+    [Parameter]
+    public string EmailAddress { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public string Address { get; set; }
+
+    [Parameter]
+    public string ProfilePicture { get; set; }
+}

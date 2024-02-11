@@ -1,0 +1,95 @@
+<div class="box mat-elevation-z8 ">
+    <mat-toolbar>New user</mat-toolbar>
+
+    <div [hidden]="isLoading || (userList && userList.data.length === 0)">
+        <table mat-table [dataSource]="userList">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Username </th>
+                <td mat-cell *matCellDef="let element"> {{element.identifier}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="details">
+                <th mat-header-cell *matHeaderCellDef> Details </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button class="bg-primary text-white"
+                        (click)="openDetailsDialog(element.id)">View</button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef> Edit </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="primary" (click)="openEditDialog(element.id)">Edit</button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="activate">
+                <th mat-header-cell *matHeaderCellDef> Activate </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button class="bg-success text-white"
+                        (click)="activateUser(element.id)">Activate</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="newUsersTabColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: newUsersTabColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+    <div class="col-12" *ngIf="userList && userList.data.length === 0">
+      No users waiting for activation
+    </div>
+    <hr />
+    <mat-toolbar>Manage users</mat-toolbar>
+    <form class="example-form" [formGroup]="searchForm" (ngSubmit)="searchUser()">
+        <div class="col-12">
+            <mat-form-field>
+                <input matInput placeholder="Username" type="tel" formControlName="identifier">
+            </mat-form-field>
+            <button mat-raised-button class="bg-success text-white mb-2 ml-2">Search</button>
+        </div>
+    </form>
+
+    <div *ngIf="user">
+
+        <table class="table table-hover">
+            <tr>
+                <td class="divider">Username: </td>
+                <td>{{ user.identifier }}</td>
+            </tr>
+            <tr>
+                <td class="divider">First and last name: </td>
+                <td>{{ user.address.name }} {{ user.address.surname }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Date of birth: </td>
+                <td>{{ user.address.dateOfBirth | amDateFormat: 'YYYY-MM-DD' }}</td>
+            </tr>
+            <tr>
+                <td class="divider">Address: </td>
+                <td>{{ user.address.street }} {{ user.address.houseNumber }} {{ user.address.postCode }}
+                    {{ user.address.city }}</td>
+            </tr>
+            <tr>
+                    <td class="divider">Edit: </td>
+                    <td><button (click)="openEditDialog(user.id)" mat-raised-button class="bg-primary text-white">Edit</button></td>
+                </tr>
+            <tr>
+                <td class="divider">Block</td>
+                <td>
+                    <button mat-raised-button *ngIf="user.locked" class="bg-success text-white"
+                        (click)="changeUserStatus()">Unlock</button>
+                    <button mat-raised-button *ngIf="!user.locked" class="bg-danger text-white"
+                        (click)="changeUserStatus()">Block</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

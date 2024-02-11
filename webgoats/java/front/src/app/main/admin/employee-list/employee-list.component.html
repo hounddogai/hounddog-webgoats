@@ -1,0 +1,224 @@
+<div class="box mat-elevation-z8 mb-2">
+    <mat-toolbar>Manage employees</mat-toolbar>
+
+    <div [hidden]="isLoading" class="mat-elevation-z1">
+        <table mat-table [dataSource]="employeeList">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef> Username </th>
+                <td mat-cell *matCellDef="let element"> {{element.identifier}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="locked">
+                <th mat-header-cell *matHeaderCellDef> Blocked </th>
+                <td mat-cell *matCellDef="let element">
+                    <span style="cursor: pointer"
+                        (click)="changeEmployeeStatus(element.id)">{{element.locked ? 'Yes' : 'No'}}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="details">
+                <th mat-header-cell *matHeaderCellDef> Details </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="primary" (click)="openDetailsDialog(element.id)">View</button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef> Edit </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="primary" (click)="openEditDialog(element.id)">Edit</button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="employeeTabColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: employeeTabColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+    </div>
+
+    <hr />
+
+    <mat-toolbar>Add employee</mat-toolbar>
+
+    <form [formGroup]="form" (ngSubmit)="sendRegisterForm()" #formDirective="ngForm">
+        <div class="mt-2 px-3">
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Password" type="password" formControlName="password">
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field>
+                        <input matInput placeholder="Confirm password" type="password"
+                            formControlName="confirmPassword">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <mat-form-field>
+                        <input matInput placeholder="Email address" type="email" formControlName="email">
+                        <mat-error
+                            *ngIf="form.get('email').hasError('email') && !form.get('email').hasError('required')">
+                          Please enter a valid email address
+                        </mat-error>
+                        <mat-error *ngIf="form.get('email').hasError('required')">
+                            Email is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+
+                    <div formGroupName="address">
+                        <mat-form-field>
+                            <input matInput [matDatepicker]="picker" [min]="minDate" [max]="currentDate"
+                                placeholder="Date of birth" formControlName="dateOfBirth">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div formGroupName="address">
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Name" formControlName="name">
+                            <mat-error
+                                *ngIf="form.get('address').get('name').hasError('minlength') && !form.get('address').get('name').hasError('required')">
+                                Name is too short
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('name').hasError('maxlength') && !form.get('address').get('name').hasError('required')">
+                                Name is too long
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('name').hasError('required')">
+                                Name is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Surname" formControlName="surname">
+                            <mat-error
+                                *ngIf="form.get('address').get('surname').hasError('minlength') && !form.get('address').get('surname').hasError('required')">
+                              Surname is too short
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('surname').hasError('maxlength') && !form.get('address').get('surname').hasError('required')">
+                              Surname is too long
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('surname').hasError('required')">
+                              Surname is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field>
+                            <input matInput placeholder="Telephone number" type="number" formControlName="phoneNumber">
+                            <mat-error
+                                *ngIf="form.get('address').get('phoneNumber').hasError('minlength') && !form.get('address').get('phoneNumber').hasError('required')">
+                                Phone number too short
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('phoneNumber').hasError('maxlength') && !form.get('address').get('phoneNumber').hasError('required')">
+                              Phone number too long
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('phoneNumber').hasError('required')">
+                                Phone number <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="City" formControlName="city">
+                            <mat-error
+                                *ngIf="form.get('address').get('city').hasError('minlength') && !form.get('address').get('city').hasError('required')">
+                                City is too short
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('city').hasError('maxlength') && !form.get('address').get('city').hasError('required')">
+                                City is too long
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('city').hasError('required')">
+                                City is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Street" formControlName="street">
+                            <mat-error
+                                *ngIf="form.get('address').get('street').hasError('minlength') && !form.get('address').get('street').hasError('required')">
+                                Street is too short
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('street').hasError('maxlength') && !form.get('address').get('street').hasError('required')">
+                                Street is too long
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('street').hasError('required')">
+                                Street is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="House number" formControlName="houseNumber">
+                            <mat-error
+                                *ngIf="form.get('address').get('houseNumber').hasError('minlength') && !form.get('address').get('houseNumber').hasError('required')">
+                                House number is too short
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('houseNumber').hasError('maxlength') && !form.get('address').get('houseNumber').hasError('required')">
+                              House number is too long
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('houseNumber').hasError('required')">
+                                House number is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <mat-form-field>
+                            <input matInput placeholder="Postcode" formControlName="postCode">
+                            <mat-error
+                                *ngIf="form.get('address').get('postCode').hasError('minlength') && !form.get('address').get('postCode').hasError('required')">
+                              Postcode is too short
+                            </mat-error>
+                            <mat-error
+                                *ngIf="form.get('address').get('postCode').hasError('maxlength') && !form.get('address').get('postCode').hasError('required')">
+                              Postcode is too long
+                            </mat-error>
+                            <mat-error *ngIf="form.get('address').get('postCode').hasError('required')">
+                              Postcode is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <button [disabled]="form.invalid" class="btn btn-success text-white mb-2">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

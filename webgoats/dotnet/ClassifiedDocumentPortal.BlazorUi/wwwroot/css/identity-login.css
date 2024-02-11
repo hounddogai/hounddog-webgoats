@@ -1,0 +1,29 @@
+﻿.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+}
+
+.logo {
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.login-form-container {
+    width: 50%;
+}
+
+.login-link {
+    text-decoration: none;
+    color: var(--mud-palette-dark);
+}
+
+.login-link:hover {
+    color: var(--mud-palette-black);
+}
+
+.form-control:focus {
+    border-color: var(--mud-palette-dark);
+    box-shadow: none;
+}

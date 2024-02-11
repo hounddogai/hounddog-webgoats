@@ -1,0 +1,43 @@
+﻿@using ClassifiedDocumentPortal.Domain.Entities
+@using Microsoft.AspNetCore.Identity
+<div>
+    <MudAppBar>
+        <AuthorizeView>
+            <Authorized>
+                <MudText Typo="Typo.h4">Classified Document Portal</MudText>
+                <MudSpacer />
+                @if (_currentUser is not null)
+                {
+                    <MudAvatar>
+                        @if (string.IsNullOrEmpty(_currentUser.ProfilePicture))
+                        {
+                            <MudImage Src="images/profile.png" />
+                        }
+                        else
+                        {
+                            <MudImage Src="@_currentUser.ProfilePicture" />
+                        }
+                    </MudAvatar>
+
+                    <MudText Typo="Typo.body1">@_currentUser.Name</MudText>
+                }
+            </Authorized>
+        </AuthorizeView>
+    </MudAppBar>
+</div>
+
+@code {
+    [Inject]
+    private UserManager<PortalUser> _userManager { get; set; }
+
+    [Inject]
+    private AuthenticationStateProvider _authenticationStateProvider { get; set; }
+
+    private PortalUser _currentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await _authenticationStateProvider.GetAuthenticationStateAsync()).User;
+        _currentUser = await _userManager.GetUserAsync(user);
+    }
+}

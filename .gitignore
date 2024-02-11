@@ -1,0 +1,10 @@
+# Direnv
+.direnv/
+.envrc
+
+# IDEs
+.idea/
+.vscode/
+
+# MacOS
+.DS_Store
