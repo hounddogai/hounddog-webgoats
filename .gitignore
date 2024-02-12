@@ -8,3 +8,7 @@
 
 # MacOS
 .DS_Store
+
+# Scanner output
+results.json
+hounddog-scan-results-*.json

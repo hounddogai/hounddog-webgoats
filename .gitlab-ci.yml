@@ -1,5 +1,7 @@
 hounddog:
-  image: hounddogai/scanner:staging
+  image:
+    name: hounddogai/scanner:staging
+    pull_policy: always
   script:
     - pip3 install -r requirements.txt
     - python scripts/clear_gitlab_scan_results.py
