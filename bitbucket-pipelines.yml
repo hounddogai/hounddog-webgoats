@@ -5,4 +5,4 @@ pipelines:
           name: Run HoundDog.ai Scan
           image: hounddogai/scanner:staging
           script:
-            - hounddog scan --output-format=console
+            - hounddog scan --output-format=console --fail-severity-threshold=critical

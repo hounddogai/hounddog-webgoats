@@ -10,5 +10,7 @@
 .DS_Store
 
 # Scanner output
-results.json
-hounddog-scan-results-*.json
+*results*.json
+*results*.md
+*report*.json
+*report*.md

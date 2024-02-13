@@ -8,5 +8,8 @@ steps:
 - checkout: self
   displayName: Checkout repository
 
-- script: docker run -t -v .:/scanpath hounddogai/scanner:staging hounddog scan
+- script: | 
+    docker run -t -v .:/scanpath hounddogai/scanner:staging hounddog scan \
+      --output-format=console \
+      --fail-severity-threshold=critical
   displayName: Run HoundDog.ai scan
