@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        ansiColor('xterm')
+    }
     stages {
         stage('Run HoundDog.ai Scan') {
             steps {
