@@ -4,8 +4,8 @@ pipeline {
         stage('Run HoundDog.ai Scan') {
             steps {
                 sh '''
-                docker run --pull=always -v .:/scanpath hounddogai/scanner:staging hounddog scan
-                    --output-format=console
+                docker run --pull=always -v .:/scanpath hounddogai/scanner:staging hounddog scan \
+                    --output-format=console \
                     --fail-severity-threshold=critical
                 '''
             }
