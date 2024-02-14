@@ -7,14 +7,24 @@ permissions:
   contents: read
 jobs:
   sync-bitbucket:
+    name: Sync Bitbucket mirror
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Synchronize Bitbucket
+      - name: Push to Bitbucket mirror
         run: |
-          git remote add bitbucket https://x-token-auth:${{ secrets.BITBUCKET_TOKEN }}@bitbucket.org/hounddogai-ws/hounddog-webgoats.git
           git config user.email ${{ secrets.BITBUCKET_EMAIL }}
-          git push bitbucket main --force
+          git push https://x-token-auth:${{ secrets.BITBUCKET_TOKEN }}@bitbucket.org/hounddogai-ws/hounddog-webgoats.git main --force
+  sync-gitlab:
+    name: Sync GitLab mirror
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push to GitLab mirror
+        run: git push https://gitlab-ci-token:${{ secrets.GITLAB_TOKEN }}@gitlab.com/hounddogai/hounddog-webgoats.git main --force

@@ -1,5 +1,7 @@
 name: HoundDog.ai Scan
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     debug:
       type: boolean
