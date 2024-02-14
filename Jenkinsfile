@@ -9,7 +9,8 @@ pipeline {
                 sh '''
                 docker run --pull=always -v .:/scanpath hounddogai/scanner:staging hounddog scan \
                     --output-format=markdown \
-                    --output-filename=results.md
+                    --output-filename=results.md \
+                    --fail-severity-threshold=medium
                 '''
             }
         }
