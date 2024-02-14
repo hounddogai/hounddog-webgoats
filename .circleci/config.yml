@@ -7,4 +7,4 @@ jobs:
       - checkout
       - run:
           name: Run HoundDog.ai Scan
-          command: hounddog scan --output-format=console --fail-severity-threshold=critical
+          command: hounddog scan --output-format=markdown --output-filename=results.md

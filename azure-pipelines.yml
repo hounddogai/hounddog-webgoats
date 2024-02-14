@@ -10,6 +10,6 @@ steps:
 
 - script: | 
     docker run -t -v .:/scanpath hounddogai/scanner:staging hounddog scan \
-      --output-format=console \
-      --fail-severity-threshold=critical
+      --output-format=markdown \
+      --output-filename=results.md
   displayName: Run HoundDog.ai scan

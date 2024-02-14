@@ -8,8 +8,8 @@ pipeline {
             steps {
                 sh '''
                 docker run --pull=always -v .:/scanpath hounddogai/scanner:staging hounddog scan \
-                    --output-format=console \
-                    --fail-severity-threshold=critical
+                    --output-format=markdown \
+                    --output-filename=results.md
                 '''
             }
         }
