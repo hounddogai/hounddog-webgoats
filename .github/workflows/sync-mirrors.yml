@@ -1,0 +1,20 @@
+name: Sync Repository Mirrors
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sync-bitbucket:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Synchronize Bitbucket
+        run: |
+          git remote add bitbucket https://x-token-auth:${{ secrets.BITBUCKET_TOKEN }}@bitbucket.org/hounddogai-ws/hounddog-webgoats.git
+          git config user.email ${{ secrets.BITBUCKET_EMAIL }}
+          git push bitbucket main --force
